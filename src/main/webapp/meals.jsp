@@ -1,6 +1,6 @@
 <%@ page import="ru.javawebinar.topjava.util.TimeUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="ru">
 <head>
     <title>Meals</title>
@@ -10,7 +10,7 @@
 <hr>
 <h2>Meals</h2>
 <br>
-<a href="">Add meal</a>
+<a href="meals?action=save">Add meal</a>
 <table border="1" cellpadding="8" cellspacing="0">
     <tr>
         <th>Date</th>
@@ -23,10 +23,13 @@
     <c:forEach items="${mealsTo}" var="mealTo">
         <jsp:useBean id="mealTo" type="ru.javawebinar.topjava.model.MealTo"/>
         <tr style="color:<%=mealTo.isExcess()?"red":"green"%>">
-            <td><%=mealTo.getDateTime().format(TimeUtil.DATE_TIME_FORMATTER)%></td>
-            <td><%=mealTo.getDescription()%></td>
-            <td><%=mealTo.getCalories()%></td>
-            <td><a href="">Update</a></td>
+            <td><%=mealTo.getDateTime().format(TimeUtil.DATE_TIME_FORMATTER)%>
+            </td>
+            <td><%=mealTo.getDescription()%>
+            </td>
+            <td><%=mealTo.getCalories()%>
+            </td>
+            <td><a href="meals?uuid=${mealTo.uuid}&action=update">Update</a></td>
             <td><a href="meals?uuid=${mealTo.uuid}&action=delete">Delete</a></td>
         </tr>
     </c:forEach>

@@ -22,6 +22,13 @@ public class Meal {
         this.calories = calories;
     }
 
+    public Meal(int uuid, LocalDateTime dateTime, String description, int calories) {
+        this.uuid = uuid;
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }

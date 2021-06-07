@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MapStorage implements Storage{
+public class MapStorage implements Storage {
     private final ConcurrentHashMap<Integer, Meal> storage = new ConcurrentHashMap<>();
 
     public MapStorage() {
@@ -39,7 +39,7 @@ public class MapStorage implements Storage{
         return new ArrayList<>(storage.values());
     }
 
-    private void populate(){
+    private void populate() {
         List<Meal> meals = MealsUtil.createListOfMeals();
         meals.forEach(meal -> storage.put(meal.getUuid(), meal));
     }

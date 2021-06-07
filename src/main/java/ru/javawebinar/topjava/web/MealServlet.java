@@ -29,10 +29,27 @@ public class MealServlet extends HttpServlet {
         storage = new MapStorage();
     }
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String dateTime = request.getParameter("dateTime");
+        String description = request.getParameter("description");
+        String calories = request.getParameter("calories");
+        Meal meal = new Meal(Integer.parseInt(uuid), LocalDateTime.parse(dateTime), description, Integer.parseInt(calories));
+        if (storage.get(Integer.parseInt(uuid)) == null) {
+            storage.save(meal);
+        } else {
+            storage.update(meal);
+        }
+        List<Meal> meals = storage.getAll();
+        request.setAttribute("mealsTo", MealsUtil.filteredByStreams(meals,
+                LocalTime.MIN, LocalTime.MAX, MealsUtil.CALORIES_PER_DAY));
+        request.getRequestDispatcher("/meals.jsp").forward(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
-
         String uuid = request.getParameter("uuid");
         String action = request.getParameter("action");
         if (action == null) {
@@ -50,11 +67,10 @@ public class MealServlet extends HttpServlet {
                         LocalTime.MIN, LocalTime.MAX, MealsUtil.CALORIES_PER_DAY));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 return;
-            case "view":
-            case "edit":
+            case "update":
                 meal = storage.get(Integer.parseInt(uuid));
                 break;
-            case "add":
+            case "save":
                 break;
         }
         request.setAttribute("meal", meal);
