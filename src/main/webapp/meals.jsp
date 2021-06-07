@@ -27,7 +27,7 @@
             <td><%=mealTo.getDescription()%></td>
             <td><%=mealTo.getCalories()%></td>
             <td><a href="">Update</a></td>
-            <td><a href="">Delete</a></td>
+            <td><a href="meals?uuid=${mealTo.uuid}&action=delete">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
