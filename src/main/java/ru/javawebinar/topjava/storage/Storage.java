@@ -7,7 +7,7 @@ public interface Storage {
 
     void save(Meal meal);
 
-    Meal get(String uuid);
+    Meal get(Integer id);
 
-    void delete(String uuid);
+    void delete(Integer id);
 }
