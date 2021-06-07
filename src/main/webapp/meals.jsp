@@ -9,7 +9,8 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-<hr>
+<br>
+<a href="">Add meal</a>
 <table border="1" cellpadding="8" cellspacing="0">
     <tr>
         <th>Date</th>
@@ -25,6 +26,8 @@
             <td><%=mealTo.getDateTime().format(TimeUtil.DATE_TIME_FORMATTER)%></td>
             <td><%=mealTo.getDescription()%></td>
             <td><%=mealTo.getCalories()%></td>
+            <td><a href="">Update</a></td>
+            <td><a href="">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
