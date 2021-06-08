@@ -20,14 +20,14 @@
     }
 </style>
 <head>
-    <title>Edit meal</title>
+    <title>Meal edit form</title>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
 </head>
 <body>
-<h2>Edit meal</h2>
+<h2><%=(meal.getId() == null)?"Add meal":"Edit meal"%></h2>
 <br>
 <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="uuid" value="${meal.uuid}">
+    <input name="mealId" type="hidden" value="${meal.id}">
     <dl>
         <dt>DateTime:</dt>
         <dd><input type="datetime-local" name="dateTime" value="${meal.dateTime}"></dd>
@@ -38,7 +38,7 @@
     </dl>
     <dl>
         <dt>Calories:</dt>
-        <dd><input type="text" name="calories" value="${meal.calories}"></dd>
+        <dd><input type="number" name="calories" value="${meal.calories}"></dd>
     </dl>
     <br>
     <button type="submit">Save</button>
