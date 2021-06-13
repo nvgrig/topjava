@@ -1,13 +1,11 @@
 package ru.javawebinar.topjava.model;
 
-import ru.javawebinar.topjava.web.SecurityUtil;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Meal extends AbstractBaseEntity implements Comparable<Meal>{
+public class Meal extends AbstractBaseEntity implements Comparable<Meal> {
     private final LocalDateTime dateTime;
 
     private final String description;

@@ -5,6 +5,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.meals.forEach(meal -> save(meal, 1));
+        save(new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "Another user meal", 999), 3);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class InMemoryMealRepository implements MealRepository {
         }
         // handle case: update, but not present in storage
         return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> {
-            if (oldMeal.getUserId() == userId) {
+            if (oldMeal.getUserId().equals(userId)) {
                 meal.setUserId(userId);
                 return meal;
             } else return oldMeal;
