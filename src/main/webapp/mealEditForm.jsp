@@ -24,7 +24,7 @@
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
 </head>
 <body>
-<h2><%=(meal.getId() == null)?"Add meal":"Edit meal"%></h2>
+<h2>${meal.id == null ? "Add meal" : "Edit meal"}</h2>
 <br>
 <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
     <input name="mealId" type="hidden" value="${meal.id}">

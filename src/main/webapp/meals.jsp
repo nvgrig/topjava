@@ -25,9 +25,9 @@
         <tr style="color:${mealTo.excess?"red":"green"}">
             <td><%=mealTo.getDateTime().format(TimeUtil.DATE_TIME_FORMATTER)%>
             </td>
-            <td><%=mealTo.getDescription()%>
+            <td>${mealTo.description}
             </td>
-            <td><%=mealTo.getCalories()%>
+            <td>${mealTo.calories}
             </td>
             <td><a href="meals?mealId=${mealTo.id}&action=update">Update</a></td>
             <td><a href="meals?mealId=${mealTo.id}&action=delete">Delete</a></td>
