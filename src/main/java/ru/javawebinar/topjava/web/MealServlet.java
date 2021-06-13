@@ -40,10 +40,7 @@ public class MealServlet extends HttpServlet {
         log.debug("saving");
         mealStorage.save(meal);
         List<Meal> meals = mealStorage.getAll();
-        log.debug("refresh meals table");
-        request.setAttribute("mealsTo", MealsUtil.filteredByStreams(meals,
-                LocalTime.MIN, LocalTime.MAX, MealsUtil.CALORIES_PER_DAY));
-        request.getRequestDispatcher("/meals.jsp").forward(request, response);
+        response.sendRedirect("meals");
     }
 
     @Override
