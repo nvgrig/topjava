@@ -20,7 +20,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.meals.forEach(meal -> save(meal, 1));
-        save(new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "Another user meal", 999), 3);
+        save(new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "Another user meal", 999), 2);
     }
 
     @Override
