@@ -23,19 +23,22 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
-    <h2>Meal filters:</h2>
-    <label for="startDate">Date from (included):</label>
-    <input type="date" id="startDate" name="startDate">
-    <label for="endDate">Date to (included):</label>
-    <input type="date" id="endDate" name="endDate">
-    <br><br>
-    <label for="startTime">Time from (included):</label>
-    <input type="time" id="startTime" name="startTime">
-    <label for="endTime">Time to (excluded):</label>
-    <input type="time" id="endTime" name="endTime">
-    <br><br>
-    <button type="submit">Filter</button>
-    <button type="button">Reset</button>
+    <form method="post" action="meals">
+        <h2>Meal filters:</h2>
+        <input type="hidden" name="filter" value="">
+        <label for="startDate">Date from (included):</label>
+        <input type="date" id="startDate" name="startDate">
+        <label for="endDate">Date to (included):</label>
+        <input type="date" id="endDate" name="endDate">
+        <br><br>
+        <label for="startTime">Time from (included):</label>
+        <input type="time" id="startTime" name="startTime">
+        <label for="endTime">Time to (excluded):</label>
+        <input type="time" id="endTime" name="endTime">
+        <br><br>
+        <button type="submit">Filter</button>
+        <button type="button">Reset</button>
+    </form>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>

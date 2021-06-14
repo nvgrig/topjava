@@ -33,6 +33,10 @@ public class MealService {
         return repository.getAll(userId);
     }
 
+    public List<Meal> getFilteredByTime(int userId) {
+        return repository.getAll(userId);
+    }
+
     public void update(Meal meal, Integer userId) {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }

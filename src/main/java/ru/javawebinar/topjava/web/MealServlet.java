@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -33,8 +34,22 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
 
+        String filter = request.getParameter("filter");
+        if (filter != null) {
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
+            String startTime = request.getParameter("startTime");
+            String endTime = request.getParameter("endTime");
+            LocalDateTime startDateTime = DateTimeUtil.getStartDateTime(startDate, startTime);
+            LocalDateTime endDateTime = DateTimeUtil.getEndDateTime(endDate, endTime);
+            log.info("getFilteredByDate");
+            request.setAttribute("meals", mealRestController.getFiltered(startDateTime, endDateTime));
+            request.getRequestDispatcher("/meals.jsp").forward(request, response);
+            return;
+        }
+
+        String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
