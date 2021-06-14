@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -32,6 +33,9 @@ public class InMemoryMealRepository implements MealRepository {
             return meal;
         }
         // handle case: update, but not present in storage
+        if (!Objects.equals(meal.getUserId(), userId)) {
+            return null;
+        }
         return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> {
             if (oldMeal.getUserId().equals(userId)) {
                 meal.setUserId(userId);

@@ -43,7 +43,7 @@ public class MealServlet extends HttpServlet {
             String endTime = request.getParameter("endTime");
             LocalDateTime startDateTime = DateTimeUtil.getStartDateTime(startDate, startTime);
             LocalDateTime endDateTime = DateTimeUtil.getEndDateTime(endDate, endTime);
-            log.info("getFilteredByDate");
+            log.info("getFiltered");
             request.setAttribute("meals", mealRestController.getFiltered(startDateTime, endDateTime));
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
             return;
