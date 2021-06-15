@@ -3,7 +3,9 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.web.user.AdminRestController;
 import ru.javawebinar.topjava.web.user.ProfileRestController;
 
 import javax.servlet.ServletException;
@@ -21,16 +23,20 @@ public class UserServlet extends HttpServlet {
 
     private ProfileRestController profileRestController;
 
+    private AdminRestController adminRestController;
+
     @Override
     public void init() {
         appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         profileRestController = appCtx.getBean(ProfileRestController.class);
+        adminRestController = appCtx.getBean(AdminRestController.class);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
         SecurityUtil.setAuthUserId(Integer.parseInt(userId));
+        adminRestController.create(new User(null,"User", "user@mail.ru", "12345", Role.USER));
         User user = profileRestController.get(SecurityUtil.authUserId());
         response.sendRedirect("meals");
     }

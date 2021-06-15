@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Repository
+@Scope("singleton")
 public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
@@ -34,14 +36,11 @@ public class InMemoryMealRepository implements MealRepository {
             return meal;
         }
         // handle case: update, but not present in storage
-        if (!Objects.equals(meal.getUserId(), userId)) {
-            return null;
-        }
         return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> {
             if (oldMeal.getUserId().equals(userId)) {
                 meal.setUserId(userId);
                 return meal;
-            } else return oldMeal;
+            } else return null;
         });
     }
 

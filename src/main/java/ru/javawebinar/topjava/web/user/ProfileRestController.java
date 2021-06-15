@@ -1,11 +1,13 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.User;
 
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
+@Scope("singleton")
 public class ProfileRestController extends AbstractUserController {
 
     public User get() {
