@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -61,8 +62,9 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
+        Comparator<Meal> comparator = (meal1, meal2) -> meal2.getDateTime().compareTo(meal1.getDateTime());
         return repository.values().stream()
-                .filter(meal -> meal.getUserId() == userId).sorted().collect(Collectors.toList());
+                .filter(meal -> meal.getUserId() == userId).sorted(comparator).collect(Collectors.toList());
     }
 }
 
