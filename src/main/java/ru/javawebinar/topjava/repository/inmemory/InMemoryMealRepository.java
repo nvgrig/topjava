@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
+    private final Comparator<Meal> comparator = Comparator.comparing(Meal::getDateTime).reversed();
 
     {
         MealsUtil.meals.forEach(meal -> save(meal, 1));
@@ -59,11 +60,16 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
-        Comparator<Meal> comparator = Comparator.comparing(Meal::getDateTime).reversed();
+    public List<Meal> getAll(int userId) {
         return repository.values().stream().filter(meal -> meal.getUserId() == userId)
-                .filter(meal -> meal.getDate().compareTo(startDate) >= 0 && meal.getDate().compareTo(endDate) <= 0)
                 .sorted(comparator).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Meal> getFilteredByDate(int userId, LocalDate startDate, LocalDate endDate) {
+        return getAll(userId).stream()
+                .filter(meal -> meal.getDate().compareTo(startDate) >= 0 && meal.getDate().compareTo(endDate) <= 0)
+                .collect(Collectors.toList());
     }
 }
 
