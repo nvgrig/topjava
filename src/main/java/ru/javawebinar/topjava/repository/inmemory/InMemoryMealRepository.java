@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
@@ -62,10 +63,11 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
-        Comparator<Meal> comparator = (meal1, meal2) -> meal2.getDateTime().compareTo(meal1.getDateTime());
-        return repository.values().stream()
-                .filter(meal -> meal.getUserId() == userId).sorted(comparator).collect(Collectors.toList());
+    public List<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
+        Comparator<Meal> comparator = Comparator.comparing(Meal::getDateTime).reversed();
+        return repository.values().stream().filter(meal -> meal.getUserId() == userId)
+                .filter(meal -> meal.getDate().compareTo(startDate) >= 0 && meal.getDate().compareTo(endDate) <= 0)
+                .sorted(comparator).collect(Collectors.toList());
     }
 }
 
