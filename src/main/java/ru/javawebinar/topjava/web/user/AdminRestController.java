@@ -1,13 +1,11 @@
 package ru.javawebinar.topjava.web.user;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
 @Controller
-@Scope("singleton")
 public class AdminRestController extends AbstractUserController {
 
     @Override
