@@ -19,25 +19,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class UserServlet extends HttpServlet {
     private static final Logger log = getLogger(UserServlet.class);
 
-    private ConfigurableApplicationContext appCtx;
-
-    private ProfileRestController profileRestController;
-
-    private AdminRestController adminRestController;
-
-    @Override
-    public void init() {
-        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-        profileRestController = appCtx.getBean(ProfileRestController.class);
-        adminRestController = appCtx.getBean(AdminRestController.class);
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
         SecurityUtil.setAuthUserId(Integer.parseInt(userId));
-        adminRestController.create(new User(null,"User", "user@mail.ru", "12345", Role.USER));
-        User user = profileRestController.get(SecurityUtil.authUserId());
         response.sendRedirect("meals");
     }
 
@@ -45,11 +30,5 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("forward to users");
         request.getRequestDispatcher("/users.jsp").forward(request, response);
-    }
-
-    @Override
-    public void destroy() {
-        appCtx.close();
-        super.destroy();
     }
 }
