@@ -1,13 +1,12 @@
 package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,7 +50,7 @@ public class MealTestData {
                 .collect(Collectors.toList());
     }
 
-    public static List<Meal> getAllUserMealFillteredByDate() {
+    public static List<Meal> getAllUserMealFilteredByDate() {
         return Stream.of(MEAL_1, MEAL_2, MEAL_3)
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
