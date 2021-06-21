@@ -16,9 +16,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertThrows;
-import static ru.javawebinar.topjava.MealTestData.assertMatch;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-common.xml",
@@ -62,7 +62,7 @@ public class MealServiceTest {
 
     @Test
     public void deletedNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.delete(MEAL_NOT_FOUND, USER_ID));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class MealServiceTest {
 
     @Test
     public void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.get(MEAL_NOT_FOUND, USER_ID));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class MealServiceTest {
     @Test
     public void updateNotFound() {
         Meal updated = MealTestData.getUpdated();
-        updated.setId(NOT_FOUND);
+        updated.setId(MEAL_NOT_FOUND);
         assertThrows(NotFoundException.class, () -> service.update(updated, USER_ID));
     }
 
