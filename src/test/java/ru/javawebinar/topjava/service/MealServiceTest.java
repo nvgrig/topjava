@@ -114,9 +114,7 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenEmptyDates() {
-        LocalDate startDate = LocalDate.of(1, 1, 1);
-        LocalDate endDate = LocalDate.of(3000, 1, 1);
-        assertMatch(service.getBetweenInclusive(startDate, endDate, USER_ID),
+        assertMatch(service.getBetweenInclusive(null, null, USER_ID),
                 getAllUserMeal());
     }
 
