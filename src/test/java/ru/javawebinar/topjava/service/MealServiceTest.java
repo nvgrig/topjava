@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Stopwatch;
@@ -18,6 +19,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
@@ -35,10 +38,14 @@ public class MealServiceTest {
 
     private static Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
 
+    private static List<String> allTestsTimes = new ArrayList<>();
+
     private static void logInfo(Description description, String status, long nanos) {
         String testName = description.getMethodName();
-        logger.info(String.format("Test %s %s, spent %d ms",
-                testName, status, TimeUnit.NANOSECONDS.toMillis(nanos)));
+        String textToLog = String.format("Test %s %s, spent %d ms",
+                testName, status, TimeUnit.NANOSECONDS.toMillis(nanos));
+        allTestsTimes.add(textToLog);
+        logger.info(textToLog);
     }
 
     @Rule
@@ -58,6 +65,11 @@ public class MealServiceTest {
             logInfo(description, "failed", nanos);
         }
     };
+
+    @AfterClass
+    public static void logClassInfo() {
+        allTestsTimes.forEach(s -> logger.info(s));
+    }
 
     @Autowired
     private MealService service;
