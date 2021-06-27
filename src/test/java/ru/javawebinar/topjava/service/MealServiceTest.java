@@ -1,7 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +18,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -26,6 +32,32 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+
+    private static Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
+
+    private static void logInfo(Description description, String status, long nanos) {
+        String testName = description.getMethodName();
+        logger.info(String.format("Test %s %s, spent %d ms",
+                testName, status, TimeUnit.NANOSECONDS.toMillis(nanos)));
+    }
+
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        public long runtime(TimeUnit unit) {
+            return super.runtime(unit);
+        }
+
+        @Override
+        protected void succeeded(long nanos, Description description) {
+            logInfo(description, "succeeded", nanos);
+        }
+
+        @Override
+        protected void failed(long nanos, Throwable e, Description description) {
+            logInfo(description, "failed", nanos);
+        }
+    };
 
     @Autowired
     private MealService service;
