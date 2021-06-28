@@ -36,14 +36,20 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
-    private static Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
 
-    private static List<String> allTestsTimes = new ArrayList<>();
+    private static final List<String> allTestsTimes = new ArrayList<>();
 
-    private static void logInfo(Description description, String status, long nanos) {
+    private static final String TEXT_RESET = "\u001B[0m";
+    private static final String TEXT_BLUE = "\u001B[34m";
+
+    @Autowired
+    private MealService service;
+
+    private static void logInfo(Description description, long nanos) {
         String testName = description.getMethodName();
-        String textToLog = String.format("Test %s %s, spent %d ms",
-                testName, status, TimeUnit.NANOSECONDS.toMillis(nanos));
+        String textToLog = String.format("%23s test spent %s%4d%s ms",
+                testName, TEXT_BLUE, TimeUnit.NANOSECONDS.toMillis(nanos), TEXT_RESET);
         allTestsTimes.add(textToLog);
         logger.info(textToLog);
     }
@@ -51,28 +57,22 @@ public class MealServiceTest {
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
-        public long runtime(TimeUnit unit) {
-            return super.runtime(unit);
-        }
-
-        @Override
         protected void succeeded(long nanos, Description description) {
-            logInfo(description, "succeeded", nanos);
+            logInfo(description, nanos);
         }
 
         @Override
         protected void failed(long nanos, Throwable e, Description description) {
-            logInfo(description, "failed", nanos);
+            logInfo(description, nanos);
         }
     };
 
     @AfterClass
     public static void logClassInfo() {
-        allTestsTimes.forEach(s -> logger.info(s));
+        StringBuffer infoString = new StringBuffer().append("\n");
+        allTestsTimes.forEach(s -> infoString.append(s).append("\n"));
+        logger.info(String.valueOf(infoString));
     }
-
-    @Autowired
-    private MealService service;
 
     @Test
     public void delete() {
@@ -105,7 +105,6 @@ public class MealServiceTest {
         assertThrows(DataAccessException.class, () ->
                 service.create(new Meal(null, meal1.getDateTime(), "duplicate", 100), USER_ID));
     }
-
 
     @Test
     public void get() {
