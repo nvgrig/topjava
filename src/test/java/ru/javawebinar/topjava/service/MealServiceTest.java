@@ -46,6 +46,14 @@ public class MealServiceTest {
     @Autowired
     private MealService service;
 
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            logInfo(description, nanos);
+        }
+    };
+
     private static void logInfo(Description description, long nanos) {
         String testName = description.getMethodName();
         String textToLog = String.format("%23s test spent %s%4d%s ms",
@@ -53,19 +61,6 @@ public class MealServiceTest {
         allTestsTimes.add(textToLog);
         logger.info(textToLog);
     }
-
-    @Rule
-    public Stopwatch stopwatch = new Stopwatch() {
-        @Override
-        protected void succeeded(long nanos, Description description) {
-            logInfo(description, nanos);
-        }
-
-        @Override
-        protected void failed(long nanos, Throwable e, Description description) {
-            logInfo(description, nanos);
-        }
-    };
 
     @AfterClass
     public static void logClassInfo() {
