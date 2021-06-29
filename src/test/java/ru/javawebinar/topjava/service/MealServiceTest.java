@@ -64,9 +64,9 @@ public class MealServiceTest {
 
     @AfterClass
     public static void logClassInfo() {
-        StringBuffer infoString = new StringBuffer().append("\n");
+        StringBuilder infoString = new StringBuilder().append("\n");
         allTestsTimes.forEach(s -> infoString.append(s).append("\n"));
-        logger.info(String.valueOf(infoString));
+        logger.info(infoString.toString());
     }
 
     @Test
