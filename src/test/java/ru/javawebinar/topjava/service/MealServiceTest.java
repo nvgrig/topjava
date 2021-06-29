@@ -40,24 +40,20 @@ public class MealServiceTest {
 
     private static final List<String> allTestsTimes = new ArrayList<>();
 
-    @Autowired
-    private MealService service;
-
     @Rule
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            logInfo(description, nanos);
+            String testName = description.getMethodName();
+            String textToLog = String.format("%23s - %3d ms",
+                    testName, TimeUnit.NANOSECONDS.toMillis(nanos));
+            allTestsTimes.add(textToLog);
+            logger.info(textToLog);
         }
     };
 
-    private static void logInfo(Description description, long nanos) {
-        String testName = description.getMethodName();
-        String textToLog = String.format("%23s - %3d ms",
-                testName, TimeUnit.NANOSECONDS.toMillis(nanos));
-        allTestsTimes.add(textToLog);
-        logger.info(textToLog);
-    }
+    @Autowired
+    private MealService service;
 
     @AfterClass
     public static void logClassInfo() {
