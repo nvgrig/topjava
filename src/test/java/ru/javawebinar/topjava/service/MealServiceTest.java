@@ -40,9 +40,6 @@ public class MealServiceTest {
 
     private static final List<String> allTestsTimes = new ArrayList<>();
 
-    private static final String TEXT_RESET = "\u001B[0m";
-    private static final String TEXT_BLUE = "\u001B[34m";
-
     @Autowired
     private MealService service;
 
@@ -56,8 +53,8 @@ public class MealServiceTest {
 
     private static void logInfo(Description description, long nanos) {
         String testName = description.getMethodName();
-        String textToLog = String.format("%23s test spent %s%4d%s ms",
-                testName, TEXT_BLUE, TimeUnit.NANOSECONDS.toMillis(nanos), TEXT_RESET);
+        String textToLog = String.format("%23s - %3d ms",
+                testName, TimeUnit.NANOSECONDS.toMillis(nanos));
         allTestsTimes.add(textToLog);
         logger.info(textToLog);
     }
