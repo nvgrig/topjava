@@ -27,8 +27,6 @@ public class JdbcUserRepository implements UserRepository {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
-    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
     private final JdbcTemplate jdbcTemplate;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -49,11 +47,6 @@ public class JdbcUserRepository implements UserRepository {
     @Transactional
     public User save(User user) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
-
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
-        if (!violations.isEmpty()) {
-            throw new ValidationException();
-        }
 
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);

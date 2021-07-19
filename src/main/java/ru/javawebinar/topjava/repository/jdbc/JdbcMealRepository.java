@@ -27,8 +27,6 @@ public class JdbcMealRepository implements MealRepository {
 
     private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
     private final JdbcTemplate jdbcTemplate;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -53,11 +51,6 @@ public class JdbcMealRepository implements MealRepository {
                 .addValue("calories", meal.getCalories())
                 .addValue("date_time", meal.getDateTime())
                 .addValue("user_id", userId);
-
-        Set<ConstraintViolation<Meal>> violations = validator.validate(meal);
-        if (!violations.isEmpty()) {
-            throw new ValidationException();
-        }
 
         if (meal.isNew()) {
             Number newId = insertMeal.executeAndReturnKey(map);
