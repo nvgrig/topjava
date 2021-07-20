@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -11,22 +11,17 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import java.util.List;
-import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 @Repository
 @Transactional(readOnly = true)
 public class JdbcUserRepository implements UserRepository {
-
-    private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
     private static final ResultSetExtractor<List<User>> USER_EXTRACTOR = new UserExtractor();
 
@@ -88,5 +83,35 @@ public class JdbcUserRepository implements UserRepository {
     public List<User> getAll() {
         return jdbcTemplate.query("SELECT * FROM users LEFT JOIN user_roles ur on users.id = ur.user_id " +
                 "ORDER BY name, email", USER_EXTRACTOR);
+    }
+
+    private static class UserExtractor implements ResultSetExtractor<List<User>> {
+        @Override
+        public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            List<User> users = new ArrayList<>();
+            User user = null;
+            while (rs.next()) {
+                int id = Integer.parseInt(rs.getString("id"));
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                Date registered = rs.getDate("registered");
+                boolean enabled = rs.getBoolean("enabled");
+                int caloriesPerDay = rs.getInt("calories_per_day");
+                Role role = Enum.valueOf(Role.class, rs.getString("role"));
+                if (user == null || user.getId() != id) {
+                    user = new User(id, name, email, password, caloriesPerDay,
+                            enabled, registered, Collections.singleton(role));
+                    users.add(user);
+                } else {
+                    users.remove(user);
+                    Set<Role> roles = user.getRoles();
+                    roles.add(role);
+                    user.setRoles(roles);
+                    users.add(user);
+                }
+            }
+            return users;
+        }
     }
 }
