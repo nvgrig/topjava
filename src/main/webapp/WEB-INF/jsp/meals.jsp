@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+ <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
@@ -13,10 +13,10 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="/topjava/meals">Home</a></h3>
+    <h3><a href="${pageContext.request.contextPath}/meals">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
-    <form method="get" action="/topjava/getBetween">
+    <form method="get" action="${pageContext.request.contextPath}/getBetween">
         <dl>
             <dt>From Date (inclusive):</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -36,7 +36,7 @@
         <button type="submit">Filter</button>
     </form>
     <hr/>
-    <a href="/topjava/showMealForm">Add Meal</a>
+    <a href="${pageContext.request.contextPath}/showMealForm">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -59,8 +59,8 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="/topjava/showMealForm/${meal.id}">Update</a></td>
-                <td><a href="/topjava/delete/${meal.id}">Delete</a></td>
+                <td><a href="${pageContext.request.contextPath}/showMealForm/${meal.id}">Update</a></td>
+                <td><a href="${pageContext.request.contextPath}/delete/${meal.id}">Delete</a></td>
                     <%--                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>--%>
             </tr>
         </c:forEach>
