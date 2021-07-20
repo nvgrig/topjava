@@ -25,18 +25,19 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 @Controller
 public class JspMealController extends AbstractMealController{
 
-    @GetMapping({"/{id}/showMealForm", "/showMealForm"})
-    public String mealFormShow(@PathVariable(required = false) Integer id, Model model) {
+    @GetMapping({"/get/{id}","/get"})
+    public String get(@PathVariable(required = false) Integer id, Model model) {
+        int userId = SecurityUtil.authUserId();
         final Meal meal = (id == null) ?
                 new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                service.get(id, SecurityUtil.authUserId());
-        log.info("get meal {} for user {}", id, SecurityUtil.authUserId());
+                service.get(id, userId);
+        log.info("get meal {} for user {}", id, userId);
         model.addAttribute("meal", meal);
         return "mealForm";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteMeal(@PathVariable("id") int id) {
+    public String delete(@PathVariable("id") int id) {
         int userId = SecurityUtil.authUserId();
         log.info("delete meal {} for user {}", id, userId);
         service.delete(id, userId);
@@ -44,7 +45,7 @@ public class JspMealController extends AbstractMealController{
     }
 
     @GetMapping("/meals")
-    public String getMeals(Model model) {
+    public String getAll(Model model) {
         int userId = SecurityUtil.authUserId();
         log.info("getAll for user {}", userId);
         model.addAttribute("meals",
@@ -53,8 +54,8 @@ public class JspMealController extends AbstractMealController{
         return "meals";
     }
 
-    @PostMapping({"/saveOrUpdateMeal", "/showMealForm/saveOrUpdateMeal"})
-    public String saveOrUpdateMeal(HttpServletRequest request) {
+    @PostMapping("/saveOrUpdate")
+    public String saveOrUpdate(HttpServletRequest request) {
         String id = Objects.requireNonNull(request.getParameter("id"));
         int userId = SecurityUtil.authUserId();
         Meal meal = new Meal(
@@ -85,8 +86,4 @@ public class JspMealController extends AbstractMealController{
                 SecurityUtil.authUserCaloriesPerDay(), startTime, endTime));
         return "meals";
     }
-
-
-
-
 }

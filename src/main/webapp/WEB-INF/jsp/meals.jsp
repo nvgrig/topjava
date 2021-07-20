@@ -32,7 +32,7 @@
         <button type="submit">Filter</button>
     </form>
     <hr/>
-    <a href="${pageContext.request.contextPath}/showMealForm">Add Meal</a>
+    <a href="${pageContext.request.contextPath}/get">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -55,7 +55,7 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="${pageContext.request.contextPath}/${meal.id}/showMealForm">Update</a></td>
+                <td><a href="${pageContext.request.contextPath}/get/${meal.id}">Update</a></td>
                 <td><a href="${pageContext.request.contextPath}/delete/${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
