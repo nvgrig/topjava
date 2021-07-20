@@ -54,7 +54,7 @@ public class JspMealController {
         return "redirect:/meals";
     }
 
-    @GetMapping({"/showMealForm/{id}", "/showMealForm"})
+    @GetMapping({"/{id}/showMealForm", "/showMealForm"})
     public String mealFormShow(@PathVariable(required = false) Integer id, Model model) {
         final Meal meal = (id == null) ?
                 new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
