@@ -13,7 +13,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.springframework.format.annotation.DateTimeFormat.*;
+import static org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
