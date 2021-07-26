@@ -228,3 +228,11 @@ Java Enterprise Online Project
 -  <a href="http://www.bookvoed.ru/book?id=639284">Редмонд Э.: Семь баз данных за семь недель. Введение в современные базы данных и идеологию NoSQL</a>
 -  <a href="http://www.ozon.ru/context/detail/id/3174887/">Brian Goetz: Java Concurrency in Practice</a>
 -  <a href="http://bookvoed.ru/book?id=2593572">G.L. McDowell: Cracking the Coding Interview</a>
+
+#### CURL запросы
+    curl http://localhost:8080/topjava/rest/meals
+    curl http://localhost:8080/topjava/rest/meals/100005
+    curl "http://localhost:8080/topjava/rest/meals/filter?startDate=2020-01-30T00:00:00&endDate=2020-01-30T10:00:00&startTime=2020-01-30T00:00:00&endTime=2020-01-30T20:00:00"
+    curl -X DELETE http://localhost:8080/topjava/rest/meals/100004
+    curl -X POST -d '{"dateTime": "2021-01-31T00:00:00","description": "NEW","calories": 1500}' http://localhost:8080/topjava/rest/meals
+    curl -X POST -d '{"id": 100005,"dateTime": "2020-01-31T00:00:00","description": "Updated description","calories": 100}' http://localhost:8080/topjava/rest/meals/100005
