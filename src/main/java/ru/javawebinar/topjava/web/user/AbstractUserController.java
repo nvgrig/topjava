@@ -35,7 +35,7 @@ public abstract class AbstractUserController {
 
     public User getWithMeals(int id) {
         log.info("getWithMeals {}", id);
-        User user = service.get(id);
+        User user = service.getWithMeals(id);
         List<Meal> meals = mealService.getAll(id);
         user.setMeals(meals);
         return user;

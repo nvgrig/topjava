@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
 
-@Component("LocalTimeFormatter")
+@Component
 public class LocalTimeFormatter implements Formatter<LocalTime> {
     @Override
     public LocalTime parse(String text, Locale locale) throws ParseException {

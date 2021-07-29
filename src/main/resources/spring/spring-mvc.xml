@@ -54,8 +54,8 @@
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-                <ref bean="LocalDateFormatter" />
-                <ref bean="LocalTimeFormatter" />
+                <ref bean="localDateFormatter" />
+                <ref bean="localTimeFormatter" />
             </set>
         </property>
     </bean>

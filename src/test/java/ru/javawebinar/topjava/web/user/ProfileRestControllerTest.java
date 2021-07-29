@@ -4,10 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,11 +35,13 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     void getWithMeals() throws Exception {
         User userWithMeals = new User(user);
-        userWithMeals.setMeals(meals);
+        List<Meal> mealsWtihUser = meals;
+        mealsWtihUser.forEach(m -> m.setUser(user));
+        userWithMeals.setMeals(mealsWtihUser);
         perform(MockMvcRequestBuilders.get(REST_URL + "/withMeals"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(userWithMeals));
+                .andExpect(MATCHER_WITH_MEALS.contentJson(userWithMeals));
     }
 
     @Test

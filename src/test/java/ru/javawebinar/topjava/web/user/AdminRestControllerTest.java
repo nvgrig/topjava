@@ -48,10 +48,10 @@ class AdminRestControllerTest extends AbstractControllerTest {
     void getWithMeals() throws Exception {
         User userWithMeals = new User(user);
         userWithMeals.setMeals(meals);
-        perform(MockMvcRequestBuilders.get(REST_URL + "withMeals/" + user.getId()))
+        perform(MockMvcRequestBuilders.get(REST_URL  + user.getId() + "/withMeals/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(userWithMeals));
+                .andExpect(MATCHER_WITH_MEALS.contentJson(userWithMeals));
     }
 
     @Test
