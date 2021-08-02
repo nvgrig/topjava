@@ -37,6 +37,12 @@ public class DateTimeUtil {
     }
 
     public static @Nullable
+    LocalDate parseRuLocalDate(@Nullable String str) {
+        DateTimeFormatter ruFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
+        return StringUtils.hasLength(str) ? LocalDate.parse(str, ruFormatter) : null;
+    }
+
+    public static @Nullable
     LocalTime parseLocalTime(@Nullable String str) {
         return StringUtils.hasLength(str) ? LocalTime.parse(str) : null;
     }
