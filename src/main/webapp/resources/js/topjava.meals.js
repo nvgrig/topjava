@@ -56,7 +56,7 @@ $(function () {
 
     $("#startDate, #endDate").datetimepicker({
         timepicker: false,
-        format: 'd.m.Y'
+        format: 'Y-m-d'
     });
 
     $("#startTime, #endTime").datetimepicker({
