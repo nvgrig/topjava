@@ -6,9 +6,8 @@ const ctx = {
 };
 
 function clearFilter() {
-    $("#startDate, #startTime, #endDate, #endTime").val(null);
+    $("#filter")[0].reset();
     updateTable();
-    successNoty("Filter cleared");
 }
 
 function filterTable() {
@@ -17,8 +16,7 @@ function filterTable() {
         url: ctx.ajaxUrl + "filter",
         data: $("#filter").serialize()
     }).done(function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-        successNoty("Filtered");
+        updateDataTable(data)
     });
 }
 
