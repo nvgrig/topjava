@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.to;
 
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -36,8 +38,8 @@ public class MealTo extends BaseTo {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = LocalDateTime.parse(dateTime);
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getDescription() {
