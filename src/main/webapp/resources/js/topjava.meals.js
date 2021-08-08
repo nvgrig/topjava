@@ -17,6 +17,22 @@ function clearFilter() {
     $.get(mealAjaxUrl, updateTableByData);
 }
 
+$.ajaxSetup({
+    converters: {
+        "text json": function (stringData) {
+            let json = JSON.parse(stringData);
+            if (typeof json === 'object') {
+                $(json).each(function () {
+                    if (this.hasOwnProperty('dateTime')) {
+                        this.dateTime = this.dateTime.substr(0, 16).replace('T', ' ');
+                    }
+                });
+            }
+            return json;
+        }
+    }
+});
+
 $(function () {
     makeEditable(
         $("#datatable").DataTable({
