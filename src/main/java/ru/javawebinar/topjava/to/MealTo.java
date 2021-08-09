@@ -3,7 +3,8 @@ package ru.javawebinar.topjava.to;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
 import java.time.LocalDateTime;
@@ -11,14 +12,17 @@ import java.util.Objects;
 
 public class MealTo extends BaseTo {
 
+    @NotNull
+    @PastOrPresent
     private LocalDateTime dateTime;
 
     @NotBlank
-    @Size(min = 2, max = 120)
+    @Size(min = 2, max = 120, message = "length must be between 2 and 120 characters")
     private String description;
 
-    @Range(min = 10, max = 5000)
-    private int calories;
+    @NotNull
+    @Range(min = 10, max = 5000, message = "number must be between 10 and 5000")
+    private Integer calories;
 
     private boolean excess;
 
@@ -54,7 +58,7 @@ public class MealTo extends BaseTo {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
@@ -71,7 +75,7 @@ public class MealTo extends BaseTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealTo mealTo = (MealTo) o;
-        return calories == mealTo.calories &&
+        return Objects.equals(calories, mealTo.calories) &&
                 excess == mealTo.excess &&
                 Objects.equals(id, mealTo.id) &&
                 Objects.equals(dateTime, mealTo.dateTime) &&
