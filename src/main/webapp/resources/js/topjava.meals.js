@@ -45,12 +45,6 @@ $(function () {
             "columns": [
                 {
                     "data": "dateTime",
-                    "render": function (data, type, row) {
-                        if (type === "display") {
-                            return data.slice(0, 10) + " " + data.slice(11, 16);
-                        }
-                        return data;
-                    }
                 },
                 {
                     "data": "description"
